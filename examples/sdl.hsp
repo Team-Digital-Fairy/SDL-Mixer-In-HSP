@@ -1,0 +1,91 @@
+#include "SDL_Mixer_X.as"
+
+#define SAMPLING_CHANNEL 128
+screen ,640,480,,
+title "helloWorld!"
+
+ret = Mix_Linked_Version() ; PTR帰ってくる。peek
+mes strf("SDL Linked Ver: %x %x %x",peek(ret,0),peek(ret,1),peek(ret,2))
+
+;初期化スタート
+mixflag = MIX_INIT_OGG
+ret = Mix_Init(mixflag)
+mes ret
+if (ret&mixflag)!=mixflag: mes "該当フラグに対するSDL2Mixerの初期化に失敗しました。 DLL足りてないかも？"
+gosub *query
+ret = Mix_OpenAudio(44100,AUDIO_S16LSB,2,1024) 
+;channelはステレオらしい。8chまで。これ多分mixのチャンネルではないと思う。
+if ret = -1: mes "Mix_OpenAudio()失敗"
+ret = Mix_AllocateChannels(SAMPLING_CHANNEL)
+mes strf("%4dチャンネルを確保しました。",ret)
+ret = Mix_ReserveChannels(4)
+mes strf("%d(0~%d)チャンネルを予約確保しました。",ret,ret-1)
+ret = Mix_GroupChannels(4,128,256)
+mes "タグ256は4-128チャンネルを使用します。"
+;初期化終了
+gosub *query
+assert
+
+
+mixmusic = Mix_LoadMUS("songs/Seomadan_Uplink.ogg") // PATHを指定する。exeからの相対パスまたは絶対パス
+if mixmusic = 0: mes "MixLoadMUS()しっぱい。やばいかも?": stop
+ret = Mix_PlayMusic(mixmusic,-1) // 再生する
+if ret = -1: mes "再生失敗"
+
+sdim titlestr, 256
+mes "長さ: " + double(Mix_GetMusicTotalTime(mixmusic))
+titleptr = str(Mix_GetMusicTitle(mixmusic))
+mes "曲名ptr: " + titleptr
+ret = Mix_GetMusicTotalTime(mixmusic)
+getdouble
+mes "再生時間:" + refdval
+/*
+wait 500
+ret = Mix_FadeOutMusicStream(mixmusic,5000)
+wait 200
+ret = Mix_FadeInMusic(mixmusic,-1,5000)
+stop
+*/
+
+*mainloop
+repeat
+	redraw 0
+	color 255,255,255
+	boxf 0,120,320,240
+	color 0,0,0
+	playingtime = Mix_GetMusicPosition(mixmusic)
+	getdouble
+	playingtime_d = refdval
+	
+	pos 0,128:mes strf("再生時間: %02d:%02d (%f)",playingtime_d/60.0, playingtime_d\60.0, playingtime_d)
+	redraw 1
+	wait 1
+loop
+
+*exit
+	goto *cleanup
+	end
+	
+*cleanup
+	ret = Mix_FadeOutMusic(3000)
+	while Mix_PlayingMusic()
+		wait 10
+	wend
+	gosub *query
+	
+	ret = Mix_FreeMusic(mixmusic)
+	mixmusic = 0
+	ret = Mix_CloseAudio()
+	ret = Mix_Quit()
+	end
+
+*query
+	timesopened = Mix_QuerySpec(frequency,format,channels)
+	mes timesopened
+	mes format
+	mes frequency
+	mes channels
+	return
+	
+
+

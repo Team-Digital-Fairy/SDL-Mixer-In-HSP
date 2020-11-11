@@ -7,8 +7,12 @@ HSPでSDL_Mixerを使うためのASファイルとDLLのセット。
 - SDL_Mixer_X.as: ASファイル
 - SDL_Mixer_X.DLL: ["WohlSoftのSDL_Mixerのフォーク"](https://github.com/WohlSoft/SDL-Mixer-X)
 - SDL2.DLL: Simple DirectMedia Layer 2
-- sdl.hsp: 使用例サンプル
--
+- examples
+	- sdl.hsp: 使用例サンプル
+	- songs
+		- Seomadan_Uplink.ogg: 下のogg版。OpenMPTレンダー。
+		- Seomadan_Uplink_samplechange1.xm: StrobeFlux + Kleederさん作のイイ曲
+
 ## クレジット
 
 @WohlSoft: SDL-Mixer-X
@@ -37,5 +41,5 @@ SDL2: zlibライセンス
 
 そのほかSDL-Mixer-Xの拡張機能を使いたい場合、SDL-Mixer-Xをリコンパイルした上で差し替えて利用してください。
 
-その場合
+その場合はWohlsoft側に質問が行くのは避けてください。
 
