@@ -13,6 +13,14 @@ HSPでSDL_Mixerを使うためのASファイルとDLLのセット。
 		- Seomadan_Uplink.ogg: 下のogg版。OpenMPTレンダー。
 		- Seomadan_Uplink_samplechange1.xm: StrobeFlux + Kleederさん作のイイ曲
 
+## 使い方
+
+前提として**Visual C++ 2017 ランタイム**と**Visual C++ 2015 ランタイム**が必要です。
+
+DLLをリコンパイルした場合、**Visual C++ 2019 ランタイム**が必要な可能性があります。
+
+SDL_Mixer_X.asをHSPファイルからみられるところかcommonにDLLと一緒に配置してください。
+
 ## クレジット
 
 @WohlSoft: SDL-Mixer-X
