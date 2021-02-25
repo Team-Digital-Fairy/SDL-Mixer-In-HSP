@@ -8,7 +8,7 @@
 	;初期化関連
 	#cfunc Mix_Init "Mix_Init" int ;本当はSDLと共に初期化したほうがいいんだけど、いらない・・・？
 	#cfunc Mix_Quit "Mix_Quit"
-	#cfunc Mix_OpenAudio "Mix_OpenAudio" int,int,int,int
+	#cfunc Mix_OpenAudio "Mix_OpenAudio" int,int,int,int ; Mixerを指定したオーディオフォーマットで開く
 	;int SDLCALL Mix_OpenAudioDevice(int frequency, Uint16 format, int channels, int chunksize, const char* device, int allowed_changes);
 	#cfunc Mix_CloseAudio "Mix_CloseAudio"
 	#cfunc Mix_QuerySpec "Mix_QuerySpec" var,var,var ;SpecQuery
@@ -143,6 +143,15 @@
 #define MIX_INIT_MID 32
 #define MIX_INIT_OPUS 64
 
+/*
+YOYO
+ 
+ 2007/7/27(Fri) 01:28:25|NO.9784
+
+整数と小数では返り値を渡す仕組みが異なるのでプラグインかマシン語で取り出す仕組みが必要です。
+強引ですが、関数の返した小数を取り出すモジュールを作ってみました。
+関数が返す少数はdoubleとfloatどちらでも大丈夫です。
+*/
 #module
 	#uselib "kernel32.dll"
 	#func VirtualProtect "VirtualProtect" int, int, int, int
@@ -155,8 +164,8 @@
 	prm = varptr(fret)
 	res = callfunc(prm, varptr(code), 1)
 	return fret
-#global	;doubleめ・・・。
-;もうちょっといいimplをするべきだと思う。
+#global
+
 
 /*
 	非対応: カスタムPostProcess関連。Function PTRはC側依存にしないとだめ。

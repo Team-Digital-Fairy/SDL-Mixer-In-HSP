@@ -30,7 +30,7 @@ assert
 mixmusic = Mix_LoadMUS("songs/Seomadan_Uplink.ogg") // PATHを指定する。exeからの相対パスまたは絶対パス
 if mixmusic = 0: mes "MixLoadMUS()しっぱい。やばいかも?": stop
 ret = Mix_PlayMusic(mixmusic,-1) // 再生する
-if ret = -1: mes "再生失敗"
+if ret = -1: mes "再生失敗" : stop
 
 sdim titlestr, 256
 mes "長さ: " + double(Mix_GetMusicTotalTime(mixmusic))
