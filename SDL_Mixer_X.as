@@ -18,7 +18,9 @@
 	#cfunc Mix_LoadMUS "Mix_LoadMUS" sptr ;Path指定でロード。
 	#cfunc Mix_LoadMUS_RW "Mix_LoadMUS_RW" int,int ; RWopsを使ってMUSをロード。
 	
+	#cfunc Mix_SetMusicFileName "Mix_SetMusicFileName" int,int
 	#cfunc Mix_FreeMusic "Mix_FreeMusic" int ;ロードしたミュージックを開放する。
+	#cfunc Mix_SetFreeOnStop "Mix_SetFreeOnStop" int,int ;再生自体が終了したらFreeする。
 	#cfunc Mix_PlayMusic "Mix_PlayMusic" int,int ;Musicを再生。 Mix_Music, loops (-1で無限)
 	#cfunc Mix_PlayChannelTimedVolume "Mix_PlayChannelTimedVolume" int,int,int,int,int ;音量設定+長さリミット付きで再生。 ;MIXER-Xオンリー
 	#define ctype Mix_PlayChannelVol(%1,%2,%3,%4) Mix_PlayChannelTimedVolume(%1,%2,%3,-1,%4) ;長さリミットなし+音量設定あり
@@ -65,6 +67,7 @@
 	#cfunc Mix_HaltGroup "Mix_HaltGroup" int ;グループ単位で止める
 	#cfunc Mix_HaltMusic "Mix_HaltMusic"; すべてのMusic停止。
 	#cfunc Mix_ExpireChannel "Mix_ExpireChannel" int,int;何秒後に停止。channel,ticks
+	
 	;サンプル関連 Mix_Chunkを扱う系列
 	#cfunc Mix_GetNumChunkDecoders "Mix_GetChunkDecoders" ;int返す
 	#cfunc Mix_GetChunkDecoder "Mix_GetChunkDecoder" int ;String PTR
