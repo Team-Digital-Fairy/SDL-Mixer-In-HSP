@@ -158,6 +158,9 @@ YOYO
 #deffunc getdouble
 	if code == 0 {
 		code=$0424448b,$04c218dd,$00000000
+		; add al, 0x24
+		; inc esp
+		; mov eax. 
 		VirtualProtect varptr(code), length(code)*4, $40, varptr(res)
 		fret=0.0
 	}
